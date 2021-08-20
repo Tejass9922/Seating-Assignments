@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<style>
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  border-radius: 0.1875rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #248afd;
+  border-color: #248afd;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0276f8;
+  border-color: #0270ec;
+}
+.btn i {
+  padding: 0 5px 0 0;
+}
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-left:auto;
+    margin-right:auto;
+    background-color: white;
+    width: 100%;
+    overflow-y:auto;
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+  	text-align:left
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+   
+}
+
+.scrollDiv {
+    max-height: 50%;
+    overflow: auto;
+}
+
+.sticky th{
+    background-color:  #009879;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+tr:hover {
+          background-color:  #009879;
+          color: white;
+        }
+body {
+    background-color: #7FFFD4;
+}
+
+@media screen and (max-width: 600px) {
+  .sticky, .btn, .styled-table, .btn-primary{
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>
+    <body>
+        <h1>
+            Reception Seating Chart
+            
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <button type="button" style="float:right;"  onclick="location.href = '/';" class="btn btn-primary btn-icon-text">
+            <i class="fa fa-home "></i>
+                Home 
+            </button>
+        
+        </h1>
+       
+           
+    
+        <table class="styled-table sticky scrollDiv">
+                <thead>
+                    <tr>
+                        {% for header in headers %}
+                        <th>{{header}}</th>
+                        {% endfor %}
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for row in table_data%}
+                    <tr>
+                        {% for guest in row%}
+                        <td>{{guest}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+       
+    </body>

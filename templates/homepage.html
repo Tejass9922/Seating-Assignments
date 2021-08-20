@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<style>
+   
+h1 {text-align: center;}
+.in-middle{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateY(-40%) translateX(-50%);
+  
+}
+.in-middle-2{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-40%) translateX(-50%);
+  margin-right: 20px;
+  
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #000;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  border-radius: 0.1875rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #248afd;
+  border-color: #248afd;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0276f8;
+  border-color: #0270ec;
+}
+.btn i {
+  padding: 0 5px 0 0;
+}
+   
+   body {
+    background-color:  #7FFFD4;
+  }
+</style>
+
+</style>
+<head>
+    <body>
+        <div class= in-middle> 
+            <h1>
+                Welcome {{first_name}}, your table number is: {{table_number}}
+            </h1>
+          </div>
+          <div class= in-middle-2>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <button type="button"  onclick="location.href = '/';" class="btn btn-primary btn-icon-text">
+              <i class="fa fa-home "></i>
+                  Home 
+              </button>
+              <button type="button"  onclick="location.href = '/seating/chartView';" class="btn btn-primary btn-icon-text">
+                <i class="fa fa-list "></i>
+                   Seating Chart
+                </button>
+          </div>
+        
+
+        
+
+     
+       
+    </body>
+  
+</head>
+
+</html>
