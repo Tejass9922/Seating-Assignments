@@ -10,16 +10,17 @@ h1 {text-align: center;}
   transform: translateY(-40%) translateX(-50%);
   
 }
+
 .in-middle-2{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-40%) translateX(-50%);
+  position: relative;
   margin-right: 20px;
   
 }
-
+form {
+  display: inline-block;
+}
 .btn {
+  margin-right: 1rem;
   display: inline-block;
   font-weight: 400;
   color: #000;
@@ -34,6 +35,7 @@ h1 {text-align: center;}
   border-radius: 0.1875rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 .btn-primary {
   color: #fff;
   background-color: #248afd;
@@ -52,28 +54,75 @@ h1 {text-align: center;}
    body {
     background-color:  #7FFFD4;
   }
+
+
+  @media screen and (max-width: 600px) {
+  .btn{
+    width: 100%;
+    margin-top: 0;
+  }
+  form{
+    width: 100%;
+    margin-top:0;
+  }
+}
+
+.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
 </style>
 
-</style>
+
+
 <head>
     <body>
         <div class= in-middle> 
             <h1>
                 Welcome {{first_name}}, your table number is: {{table_number}}
             </h1>
-          </div>
-          <div class= in-middle-2>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <button type="button"  onclick="location.href = '/';" class="btn btn-primary btn-icon-text">
+       
+        
+         <div class=parent>   
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <button type="button" style="margin-right: 1rem" onclick="location.href = '/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="btn btn-primary btn-icon-text child">
               <i class="fa fa-home "></i>
-                  Home 
+              Home 
               </button>
-              <button type="button"  onclick="location.href = '/seating/chartView';" class="btn btn-primary btn-icon-text">
-                <i class="fa fa-list "></i>
-                   Seating Chart
+           
+            <button type="button" style="margin-right: 1rem" onclick="location.href = '/seating/chartView/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="btn btn-primary btn-icon-text child">
+              <i class="fa fa-list "></i>
+                  Seating Chart
+              </button>
+            
+              <form action="/seating/tableInfo/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb"  method="POST" style="margin-right: .1rem" class="child" >
+                <input type="hidden" id="tableNumber" name="tableNumber" value="{{table_number}}">
+                <input type="hidden" id="name" name="name" value="{{first_name}}">
+                 <button type="submit" name="tableInfo" value= Submit class="btn btn-primary btn-icon-text">
+                <i class="fa fa-info-circle"></i>
+                    Your Table Information
                 </button>
+              </form>
+              <form action="/seating/partyInfo/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb"  method="POST" class="child"  style="margin-right: .5rem">
+                <input type="hidden" id="partyIndicator" name="partyIndicator" value="{{party_indicator}}">
+                <input type="hidden" id="name" name="name" value="{{first_name}}">
+                 <button type="submit" name="partyInfo" value= Submit class="btn btn-primary btn-icon-text">
+                <i class="fa fa-users"></i>
+                    Your Party Information
+                </button>
+              </form>    
+            </div>
+         
+         
+            
           </div>
         
+                  
+        
+        
+           
 
         
 
