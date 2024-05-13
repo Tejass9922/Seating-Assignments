@@ -1,145 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seating Chart</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
-.btn {
-  display: inline-block;
-  font-weight: 400;
-  color: #000;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.875rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1;
-  border-radius: 0.1875rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-.btn-primary {
-  color: #fff;
-  background-color: #248afd;
-  border-color: #248afd;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #0276f8;
-  border-color: #0270ec;
-}
-.btn i {
-  padding: 0 5px 0 0;
-}
-.styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    margin-left:auto;
-    margin-right:auto;
-    background-color: white;
-    width: 100%;
-    overflow-y:auto;
-}
-
-.styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-  	text-align:left
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-}
-
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-   
-}
-
-.scrollDiv {
-    max-height: 50%;
-    overflow: auto;
-}
-
-.sticky th{
-    background-color:  #009879;
-    color: white;
-    position: sticky;
-    top: 0;
-}
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
-
-.styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
-}
-
-tr:hover {
-          background-color:  #009879;
-          color: white;
-        }
-body {
-    background-color: #7FFFD4;
-}
-
-@media screen and (max-width: 600px) {
-  .sticky, .btn, .styled-table, .btn-primary{
-    width: 100%;
-    margin-top: 0;
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #5a4747; /* Original background color */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Disable scrolling */
   }
-}
-@media screen and (min-width: 25em){
-  html { font-size: calc( 16px + (24 - 16) * (100vw - 400px) / (800 - 400) ); }
-}
-
-/* Safari <8 and IE <11 */
-@media screen and (min-width: 25em){
-  html { font-size: calc( 16px + (24 - 16) * (100vw - 400px) / (800 - 400) ); }
-}
-
-@media screen and (min-width: 50em){
-html { font-size: calc( 16px + (24 - 16) * (100vw - 400px) / (800 - 400) ); }
-}
+  .container {
+    background-color: #333333; /* Dark gray background */
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Adjusted padding */
+    max-width: 90vw; /* Max-width relative to viewport width */
+    width: 800px; /* Fixed container width */
+    text-align: center;
+    margin: 10vh auto; /* Adjusted margin */
+    color: #f2f2f2; /* Off-white text */
+    overflow: hidden; /* Hide overflow */
+  }
+  .title {
+    margin-bottom: 20px; /* Added margin for title */
+  }
+  button.home {
+    background-color: #9b4dca; /* Original button color */
+    color: #fff; /* Original button text color */
+    margin-top: 20px; /* Increased margin-top */
+    border: none;
+    border-radius: 25px;
+    padding: 12px 24px; /* Adjusted padding */
+    font-size: 16px; /* Fixed font size */
+    transition: background-color 0.3s ease;
+  }
+  button.home:hover {
+    background-color: #248afd; /* Darker color on hover */
+  }
+  .icon {
+    margin-right: 10px; /* Fixed margin */
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f2f2f2; /* Original background color */
+    color: #262626; /* Original text color */
+    overflow-y: auto; /* Add vertical scroll if needed */
+    max-height: 50vh; /* Limit table height for smaller screens */
+  }
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  th {
+    background-color: #dcdcdc; /* Original background color for headers */
+    position: sticky; /* Make headers sticky */
+    top: 0; /* Stick to top */
+    z-index: 1; /* Ensure headers are above other elements */
+  }
+  tbody tr:nth-child(even) {
+    background-color: #dcdcdc; /* Original background color for even rows */
+  }
+  @media only screen and (max-width: 600px) {
+    .container {
+      padding: 10px; /* Adjusted padding for smaller screens */
+      max-width: 100%; /* Adjusted max-width for smaller screens */
+    }
+    button.home {
+      font-size: 14px; /* Adjusted font size for smaller screens */
+      padding: 12px; /* Adjusted padding for smaller screens */
+      margin-top: 15px; /* Adjusted margin-top for smaller screens */
+      width: calc(100% - 24px); /* Adjusted width for smaller screens */
+    }
+  }
 </style>
-    <body>
-        <h1>
-            Reception Seating Chart
-            
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <button type="button" style="float:right;"  onclick="location.href = '/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="btn btn-primary btn-icon-text">
-            <i class="fa fa-home "></i>
-                Home 
-            </button>
-        
-        </h1>
-       
-           
+</head>
+<body>
+<div class="container">
+  <h2 class="title"><i class="fas fa-ring icon" style="color: #f89978;"></i>Seating Chart</h2>
+  <div style="overflow-y: auto; max-height: 50vh;"> <!-- Set max-height to limit container size -->
     
-        <table class="styled-table sticky scrollDiv">
-                <thead>
-                    <tr>
-                        {% for header in headers %}
-                        <th>{{header}}</th>
-                        {% endfor %}
-                    
-                    </tr>
-                </thead>
-                <tbody>
-                    {%for row in table_data%}
-                    <tr>
-                        {% for guest in row%}
-                        <td>{{guest}}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <table class="styled-table sticky scrollDiv">
+      <thead>
+          <tr>
+              {% for header in headers %}
+              <th>{{header}}</th>
+              {% endfor %}
+          
+          </tr>
+      </thead>
+      <tbody>
+          {%for row in table_data%}
+          <tr>
+              {% for guest in row%}
+              <td>{{guest}}</td>
+              {% endfor %}
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  </div>
+  <div>
+    <button type="button" onclick="location.href = '/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="home"><i class="fas fa-home icon"></i>Home</button>
+  </div>
+</div>
+</body>
+</html>
 
-       
-    </body>

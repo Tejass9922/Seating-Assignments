@@ -1,135 +1,93 @@
 <!DOCTYPE html>
-<html>
-<style>
-   
-h1 {text-align: center;}
-.in-middle{
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translateY(-40%) translateX(-50%);
-  
-}
-
-.in-middle-2{
-  position: relative;
-  margin-right: 20px;
-  
-}
-form {
-  display: inline-block;
-}
-.btn {
-  margin-right: 1rem;
-  display: inline-block;
-  font-weight: 400;
-  color: #000;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.875rem 1rem;
-  font-size: 0.875rem;
-  line-height: 1;
-  border-radius: 0.1875rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #248afd;
-  border-color: #248afd;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #0276f8;
-  border-color: #0270ec;
-}
-.btn i {
-  padding: 0 5px 0 0;
-}
-   
-   body {
-    background-color:  #7FFFD4;
-  }
-
-
-  @media screen and (max-width: 600px) {
-  .btn{
-    width: 100%;
-    margin-top: 0;
-  }
-  form{
-    width: 100%;
-    margin-top:0;
-  }
-}
-
-.parent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-}
-</style>
-
-
-
+<html lang="en">
 <head>
-    <body>
-        <div class= in-middle> 
-            <h1>
-                Welcome {{first_name}}, your table number is: {{table_number}}
-            </h1>
-       
-        
-         <div class=parent>   
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <button type="button" style="margin-right: 1rem" onclick="location.href = '/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="btn btn-primary btn-icon-text child">
-              <i class="fa fa-home "></i>
-              Home 
-              </button>
-           
-            <button type="button" style="margin-right: 1rem" onclick="location.href = '/seating/chartView/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="btn btn-primary btn-icon-text child">
-              <i class="fa fa-list "></i>
-                  Seating Chart
-              </button>
-            
-              <form action="/seating/tableInfo/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb"  method="POST" style="margin-right: .1rem" class="child" >
-                <input type="hidden" id="tableNumber" name="tableNumber" value="{{table_number}}">
-                <input type="hidden" id="name" name="name" value="{{first_name}}">
-                 <button type="submit" name="tableInfo" value= Submit class="btn btn-primary btn-icon-text">
-                <i class="fa fa-info-circle"></i>
-                    Your Table Information
-                </button>
-              </form>
-              <form action="/seating/partyInfo/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb"  method="POST" class="child"  style="margin-right: .5rem">
-                <input type="hidden" id="partyIndicator" name="partyIndicator" value="{{party_indicator}}">
-                <input type="hidden" id="name" name="name" value="{{first_name}}">
-                 <button type="submit" name="partyInfo" value= Submit class="btn btn-primary btn-icon-text">
-                <i class="fa fa-users"></i>
-                    Your Party Information
-                </button>
-              </form>    
-            </div>
-         
-         
-            
-          </div>
-        
-                  
-        
-        
-           
-
-        
-
-     
-       
-    </body>
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Successful Submission</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #5a4747; 
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Disable scrolling */
+  }
+  .container {
+    background-color: #333333; /* Dark gray background */
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px; /* Fixed padding */
+    max-width: 90vw; /* Max-width relative to viewport width */
+    text-align: center;
+    margin: 20vh auto; /* Adjusted margin */
+    color: #f2f2f2; /* Off-white text */
+  }
+  input[type="text"],
+  button {
+    width: calc(100% - 40px); /* Width relative to container width */
+    padding: 15px; /* Fixed padding */
+    margin: 10px 0; /* Fixed margin */
+    border: 1px solid #dcdcdc;
+    border-radius: 25px;
+    font-size: 16px; /* Fixed font size */
+    transition: border-color 0.3s ease;
+    background-color: #f2f2f2; /* Light grey background for inputs */
+    color: #262626; /* Dark text color */
+  }
+  input[type="text"]:focus {
+    outline: none;
+    border-color: #9b4dca;
+  }
+  button.submit {
+    background-color: #9b4dca;
+    color: #fff;
+    margin-top: 20px; /* Increased margin-top */
+  }
+  button.seating-chart {
+    background-color: #f89978;
+    color: #fff;
+    margin-top: 10px; /* Adjusted margin-top */
+  }
+  button:hover {
+    background-color: #7f4b82;
+  }
+  .icon {
+    margin-right: 10px; /* Fixed margin */
+  }
+  @media only screen and (max-width: 600px) {
+    .container {
+      padding: 20px; /* Adjusted padding for smaller screens */
+    }
+    input[type="text"],
+    button {
+      font-size: 14px; /* Adjusted font size for smaller screens */
+      padding: 12px; /* Adjusted padding for smaller screens */
+      margin: 8px 0; /* Adjusted margin for smaller screens */
+      width: calc(100% - 24px); /* Adjusted width for smaller screens */
+    }
+    button.submit,
+    button.seating-chart {
+      margin-top: 15px; /* Adjusted margin-top for smaller screens */
+    }
+  }
+</style>
 </head>
-
+<body>
+<div class="container">
+  <h2><i class="fas fa-ring icon" style="color: #f89978;"></i>Welcome {{first_name}}, you'll be sitting at Table {{table_number}}</h2>
+  <button type="button" onclick="location.href = '/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="submit"><i class="fas fa-home icon" style="color: #fff;"></i>Home</button>
+  <form action="/seating/tableInfo/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb"  method="POST">
+    <input type="hidden" id="tableNumber" name="tableNumber" value="{{table_number}}">
+    <input type="hidden" id="name" name="name" value="{{first_name}}">
+    <button type="submit" class="submit"><i class="fas fa-info-circle icon"></i>Table Info</button>
+  </form>
+  <form action="/seating/partyInfo/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb" method="POST">
+    <input type="hidden" id="partyIndicator" name="partyIndicator" value="{{party_indicator}}">
+    <input type="hidden" id="name" name="name" value="{{first_name}}">
+    <button type="submit" class="submit"><i class="fas fa-users icon"></i>Party Info</button>
+  </form>
+  <button type="button" onclick="location.href = '/seating/chartView/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="seating-chart"><i class="fas fa-chair icon" style="color: #fff;"></i>Seating Chart</button>
+</div>
+</body>
 </html>

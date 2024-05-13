@@ -18,9 +18,6 @@ def success():
         number = int(session["table_number"])
         name = str(session["user"])
         party_indicator = int(session['party_indicator'])
-        session.pop("user")
-        session.pop("table_number")
-        session.pop("party_indicator")
         return render_template("homepage.html",first_name=name,table_number=number,party_indicator=party_indicator)
      
     else:
@@ -47,7 +44,7 @@ def party_info():
         party_indicator = int(request.form['partyIndicator'])
         name = str(request.form['name'])
         (headers,data) = query_party_assignment(party_indicator)
-        return render_template('partyData.html',headers=headers,table_data=data,name=name)
+        return render_template('partyData.html',headers=headers,party_data=data,name=name)
 
 @app.route('/seating/tableInfo/' + SHA_SECRET_KEY,methods = ['POST', 'GET'])
 def table_info():
