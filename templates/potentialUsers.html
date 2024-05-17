@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Table Information</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #5a4747; /* Original background color */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Disable scrolling */
+  }
+  .container {
+    background-color: #333333; /* Dark gray background */
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Adjusted padding */
+    max-width: 90vw; /* Max-width relative to viewport width */
+    text-align: center;
+    margin: 10vh auto; /* Adjusted margin */
+    color: #f2f2f2; /* Off-white text */
+  }
+  button {
+    width: calc(50% - 20px); /* Width relative to container width */
+    padding: 12px; /* Fixed padding */
+    margin: 10px 0; /* Adjusted margin */
+    border: none;
+    border-radius: 25px;
+    font-size: 16px; /* Fixed font size */
+    transition: background-color 0.3s ease;
+    background-color: #9b4dca; /* Original button color */
+    color: #fff; /* Original button text color */
+  }
+  button.back {
+    background-color: #f89978; /* Original button color */
+  }
+  button.home {
+    background-color: #9b4dca /* Original button color */
+  }
+  button:hover {
+    background-color: #248afd; /* Darker color on hover */
+  }
+  .icon {
+    margin-right: 10px; /* Fixed margin */
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Added bottom margin */
+    background-color: #f2f2f2; /* Original background color */
+  }
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    color: #262626; /* Original text color */
+  }
+  th {
+    background-color: #dcdcdc; /* Original background color for headers */
+    position: sticky; /* Make headers sticky */
+    top: 0; /* Stick to top */
+    z-index: 1; /* Ensure headers are above other elements */
+  }
+  tbody tr:nth-child(even) {
+    background-color: #dcdcdc; /* Original background color for even rows */
+  }
+  @media only screen and (max-width: 600px) {
+    .container {
+      padding: 10px; /* Adjusted padding for smaller screens */
+    }
+    button {
+      font-size: 14px; /* Adjusted font size for smaller screens */
+      padding: 12px; /* Adjusted padding for smaller screens */
+      margin: 8px 0; /* Adjusted margin for smaller screens */
+      width: calc(100% - 24px); /* Adjusted width for smaller screens */
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2><i class="fas fa-ring icon" style="color: #f89978;"></i>We couldn't find any exact matches</h3>
+  <p>Did you mean to input any of these names?</p>
+  <div style="overflow-y: auto; max-height: 300px;"> <!-- Set max-height to limit container size -->
+    <table class="styled-table sticky scrollDiv">
+      <thead>
+          <tr>
+              {% for header in headers %}
+              <th>{{header}}</th>
+              {% endfor %}
+          
+          </tr>
+      </thead>
+      <tbody>
+          {%for row in table_data%}
+          <tr>
+              {% for guest in row%}
+              <td>{{guest}}</td>
+              {% endfor %}
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <button type="button" onclick="location.href = '/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="submit"><i class="fas fa-redo icon" style="color: #fff;"></i>Try Again</button>
+    <button type="button" onclick="location.href = '/seating/chartView/b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb';" class="seating-chart"><i class="fas fa-chair icon"></i>Seating Chart</button>
+  </div>
+</div>
+</body>
+</html>

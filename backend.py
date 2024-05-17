@@ -23,6 +23,16 @@ def success():
     else:
        return redirect(url_for('home'))
 
+@app.route('/seating/approximate/' + SHA_SECRET_KEY)
+def list_approx_users():
+    if "approx_users" in session:
+        headers = ("First Name", "Last Name", "Table Number")
+        users = session['approx_users']
+        session.pop('approx_users')
+        return render_template("potentialUsers.html", headers = headers, table_data = users )
+    else:
+        return redirect(url_for('home'))
+
 @app.route('/seating/fail/' + SHA_SECRET_KEY)
 def failure():
     if "user" in session:
@@ -65,17 +75,33 @@ def login():
         print((first,last))
         name = (first,last)
         (formatted_name,table_number,party_indicator) = find_table(name)
-        session["user"] = first if formatted_name == 'FAIL_CASE' else formatted_name
-        if table_number == -1:
-            return redirect(url_for('failure'))
+        if formatted_name == "FAIL_CASE":
+            approximate_users = find_approximate_users(first,last)
+        
+        if len(approximate_users) == 0:
+            session["user"] = first if formatted_name == 'FAIL_CASE' else formatted_name
+            if table_number == -1:
+                return redirect(url_for('failure'))
 
-        session["table_number"] = (table_number)
-        session["party_indicator"] = party_indicator
-        print(session["table_number"])
-        return redirect(url_for('success'))
+            session["table_number"] = (table_number)
+            session["party_indicator"] = party_indicator
+            print(session["table_number"])
+            return redirect(url_for('success'))
+        else:
+            session['approx_users'] = approximate_users
+            return redirect(url_for('list_approx_users'))
     else: 
         return render_template('login.html')
      
+
+def find_approximate_users(first_name, last_name):
+    approx_users = []
+    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    for row in csv_file: 
+        if row[0] == first_name or row[0] == last_name or row[1] == last_name or row[1] == first_name:
+            approx_users.append((row[0], row[1], row[2]))
+    
+    return approx_users
 
 def query_table_data(table_number):
     headers = ("First Name", "Last Name")
@@ -114,11 +140,9 @@ def find_table(name):
     last = name[1].strip()
 
     csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
-
     for row in csv_file:  
         if row[0].lower() == first.lower() and row[1].lower() == last.lower():
             return (row[0],row[2],row[3])
-
     return ('FAIL_CASE',-1, -1)
 
 def fetch_table_format():
@@ -132,6 +156,4 @@ def fetch_table_format():
       
 
 if __name__ == '__main__':
-  
-
     app.run(threaded=True,host='0.0.0.0') 
