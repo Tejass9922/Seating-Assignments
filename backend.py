@@ -5,7 +5,7 @@ import sys
 app = Flask(__name__)
 app.secret_key= "tejas_is_very_cool"
 SHA_SECRET_KEY = 'b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb'
-guest_list = "Sangeeth_guest_list.csv"
+guest_list = "Medha_Sangeeth_Guest_List_Tejas_Updated_V5.csv"
 @app.route('/'+ SHA_SECRET_KEY)
 def home():
     session.clear()
@@ -109,18 +109,30 @@ def find_approximate_users(first_name, last_name):
     
     last_names = fetch_last_names_2()
     first_names = fetch_first_names()
+
+    k_closest_neighbors_v1 = []
+    k_closest_neighbors_v2 = []
+    k_closest_neighbors_v3 = []
+    k_closest_neighbors_v4 = []
     
-    k_closest_neighbors_v1 = k_closest.find_close_words(last_names,last_name,4,1)
-    k_closest_neighbors_v2 = k_closest.find_close_words(first_names,first_name,4,1)
-    k_closest_neighbors_v3 = k_closest.find_close_words(last_names,first_name,3,1)
-    k_closest_neighbors_v4 = k_closest.find_close_words(first_names,last_name,3,1)
+    if len(last_name) > 0:
+        k_closest_neighbors_v1 = k_closest.find_close_words(last_names,last_name,4,2)
+        k_closest_neighbors_v4 = k_closest.find_close_words(first_names,last_name,3,1)
+    if len(first_name) > 0:
+        k_closest_neighbors_v2 = k_closest.find_close_words(first_names,first_name,4,2)
+        k_closest_neighbors_v3 = k_closest.find_close_words(last_names,first_name,3,1)
 
    
     k_closest_neighbors = set()
-    k_closest_neighbors.update(k_closest_neighbors_v1)
-    k_closest_neighbors.update(k_closest_neighbors_v2)
-    k_closest_neighbors.update(k_closest_neighbors_v3)
-    k_closest_neighbors.update(k_closest_neighbors_v4)
+    if len(k_closest_neighbors_v1) > 0:
+        k_closest_neighbors.update(k_closest_neighbors_v1)
+    if len(k_closest_neighbors_v2) > 0:
+        k_closest_neighbors.update(k_closest_neighbors_v2)
+    if len(k_closest_neighbors_v3) > 0:
+        k_closest_neighbors.update(k_closest_neighbors_v3) 
+    if len(k_closest_neighbors_v4) > 0:
+        k_closest_neighbors.update(k_closest_neighbors_v4)
+
     if '' in k_closest_neighbors:
         k_closest_neighbors.remove('')
     print(k_closest_neighbors)
@@ -156,7 +168,7 @@ def fetch_last_names():
     csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     last_names = set()
     for row in csv_file:
-         last_name = str(row[1])
+         last_name = str(row[1].strip())
          if not last_name in last_names:
              last_names.add(last_name)
     return last_names
@@ -165,7 +177,7 @@ def fetch_last_names_2():
     csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     last_names = set()
     for row in csv_file:
-         last_name = str(row[1]).lower()
+         last_name = str(row[1]).lower().strip()
          if not last_name in last_names:
              last_names.add(last_name)
 

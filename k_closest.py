@@ -64,9 +64,9 @@ def find_close_words(words, target, k, max_threshold):
     return [heapq.heappop(max_heap)[1] for _ in range(len(max_heap))][::-1]
 
 # Example usage
-words = ["Dale","Kalle","Bale"]
-target = "Damnn my boy"  # Case-sensitive misspelled target
-k = 1
+words = ["s","Bale"]
+target = "sameer"  # Case-sensitive misspelled target
+k = 2
 max_threshold = 2
 print(find_close_words(words,target,k,max_threshold))
 # import heapq
