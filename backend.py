@@ -5,7 +5,7 @@ import sys
 app = Flask(__name__)
 app.secret_key= "tejas_is_very_cool"
 SHA_SECRET_KEY = 'b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb'
-guest_list = "Medha_Sangeeth_Guest_List_Tejas_Updated_V5.csv"
+guest_list = "Sangeet_Guest_List_Final.csv"
 @app.route('/'+ SHA_SECRET_KEY)
 def home():
     session.clear()
@@ -135,7 +135,6 @@ def find_approximate_users(first_name, last_name):
 
     if '' in k_closest_neighbors:
         k_closest_neighbors.remove('')
-    print(k_closest_neighbors)
     csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     for row in csv_file:
         if row[0].lower() in k_closest_neighbors or row[1].lower() in k_closest_neighbors:
@@ -196,11 +195,13 @@ def fetch_first_names():
 def find_table(name):
     first = name[0].strip()
     last = name[1].strip()
-
+    users = []
     csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     for row in csv_file:  
         if row[0].lower() == first.lower() and row[1].lower() == last.lower():
-            return (row[0],row[2],row[3])
+            users.append((row[0],row[2],row[3]))
+    if len(users) == 1:
+        return users[0]
     return ('FAIL_CASE',-1, -1)
 
 def fetch_table_format():
