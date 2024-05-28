@@ -1,15 +1,15 @@
 from flask import Flask,render_template,url_for,redirect,request,session,jsonify,json
-
+import k_closest
 import csv 
 import sys
 app = Flask(__name__)
 app.secret_key= "tejas_is_very_cool"
 SHA_SECRET_KEY = 'b37e50cedcd3e3f1ff64f4afc0422084ae694253cf399326868e07a35f4a45fb'
+guest_list = "Sangeeth_guest_list.csv"
 @app.route('/'+ SHA_SECRET_KEY)
 def home():
     session.clear()
     last_names = list(fetch_last_names())
-    print(last_names)
     return render_template('login.html', last_names = json.dumps(last_names))
 
 @app.route('/seating/success/' + SHA_SECRET_KEY)
@@ -62,7 +62,6 @@ def table_info():
         table =  int(request.form['tableNumber'])
         name = str(request.form['name'])
         (headers,data) = query_table_data(table)
-       # print(data)
         return render_template('tableData.html',headers = headers, table_data = data,table_number=table, name =name)
     else:
         return redirect(url_for('home'))
@@ -72,9 +71,9 @@ def login():
     if request.method == 'POST':
         first = str(request.form['firstname'])
         last = str(request.form['lastname'])
-        print((first,last))
         name = (first,last)
         (formatted_name,table_number,party_indicator) = find_table(name)
+        approximate_users = []
         if formatted_name == "FAIL_CASE":
             approximate_users = find_approximate_users(first,last)
         
@@ -85,75 +84,121 @@ def login():
 
             session["table_number"] = (table_number)
             session["party_indicator"] = party_indicator
-            print(session["table_number"])
             return redirect(url_for('success'))
         else:
-            session['approx_users'] = approximate_users
+            session['approx_users'] = list(approximate_users)
             return redirect(url_for('list_approx_users'))
     else: 
         return render_template('login.html')
      
 
 def find_approximate_users(first_name, last_name):
-    approx_users = []
-    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    approx_users = set()
+    if len(first_name) == 0 and len(last_name) == 0:
+        return approx_users
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     for row in csv_file: 
-        if row[0] == first_name or row[0] == last_name or row[1] == last_name or row[1] == first_name:
-            approx_users.append((row[0], row[1], row[2]))
+        if first_name.strip() == '':
+            if (row[0].lower() == last_name.lower() or row[1].lower() == last_name.lower()):
+                approx_users.add((row[0], row[1], row[2])) 
+        elif last_name.strip() == '':
+            if (row[0].lower() == first_name.lower() or row[1].lower() == first_name.lower()):
+                approx_users.add((row[0], row[1], row[2])) 
+        elif (row[0].lower() == first_name.lower() or row[0].lower() == last_name.lower() or row[1].lower() == last_name.lower() or row[1].lower() == first_name.lower()):
+            approx_users.add((row[0], row[1], row[2])) 
     
+    last_names = fetch_last_names_2()
+    first_names = fetch_first_names()
+    
+    k_closest_neighbors_v1 = k_closest.find_close_words(last_names,last_name,4,1)
+    k_closest_neighbors_v2 = k_closest.find_close_words(first_names,first_name,4,1)
+    k_closest_neighbors_v3 = k_closest.find_close_words(last_names,first_name,3,1)
+    k_closest_neighbors_v4 = k_closest.find_close_words(first_names,last_name,3,1)
+
+   
+    k_closest_neighbors = set()
+    k_closest_neighbors.update(k_closest_neighbors_v1)
+    k_closest_neighbors.update(k_closest_neighbors_v2)
+    k_closest_neighbors.update(k_closest_neighbors_v3)
+    k_closest_neighbors.update(k_closest_neighbors_v4)
+    if '' in k_closest_neighbors:
+        k_closest_neighbors.remove('')
+    print(k_closest_neighbors)
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
+    for row in csv_file:
+        if row[0].lower() in k_closest_neighbors or row[1].lower() in k_closest_neighbors:
+            user = (row[0], row[1], row[2])
+            if not user in approx_users:
+                approx_users.add(user) 
     return approx_users
+
 
 def query_table_data(table_number):
     headers = ("First Name", "Last Name")
-    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     data = []
     for row in csv_file:
         if int(row[2]) == table_number:
             data.append([row[0],row[1]])
-   # print(data)
     return (headers,data)
 
 def query_party_assignment(party_identifier):
     headers = ("First Name", "Last Name", "Table Number")
     data = []
-    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     for row in csv_file:
         if int(row[3]) == party_identifier:
              data.append([row[0],row[1],row[2]])
-    print("party identifier %d" % party_identifier)
-    print(data)
     return (headers,data)
 
 
 def fetch_last_names():
-    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     last_names = set()
     for row in csv_file:
          last_name = str(row[1])
          if not last_name in last_names:
              last_names.add(last_name)
+    return last_names
+
+def fetch_last_names_2():
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
+    last_names = set()
+    for row in csv_file:
+         last_name = str(row[1]).lower()
+         if not last_name in last_names:
+             last_names.add(last_name)
 
     return last_names
+
+def fetch_first_names():
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
+    first_names = set()
+    for row in csv_file:
+         first_name = str(row[0])
+         if not first_name in first_names:
+             first_names.add(first_name)
+
+    return first_names
 
 def find_table(name):
     first = name[0].strip()
     last = name[1].strip()
 
-    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     for row in csv_file:  
         if row[0].lower() == first.lower() and row[1].lower() == last.lower():
             return (row[0],row[2],row[3])
     return ('FAIL_CASE',-1, -1)
 
 def fetch_table_format():
-    csv_file = csv.reader(open('test.csv', "r"), delimiter=",")
+    csv_file = csv.reader(open(guest_list, "r"), delimiter=",")
     headers = ("First Name", "Last Name", "Table Number")
     data = []
     for row in csv_file:
         data.append([row[0],row[1],row[2]])
     
     return (headers,data)
-      
 
 if __name__ == '__main__':
     app.run(threaded=True,host='0.0.0.0') 
