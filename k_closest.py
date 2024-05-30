@@ -25,7 +25,7 @@ def find_close_words(words, target, k, max_threshold):
     for word in words:
         distance = levenshtein_distance(word, target)
         if distance <= max_threshold:
-            heapq.heappush(max_heap, (-distance, word))
+            heapq.heappush(max_heap, (-distance, word.lower()))
             if len(max_heap) > k:
                 heapq.heappop(max_heap)
     
